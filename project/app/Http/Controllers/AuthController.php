@@ -10,7 +10,13 @@ use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
-    public function register() {
+    public function register(request $Request): RedirectResponse {
     return view('auth.register');
     }
+
+
+    public function profile() {
+    return view('auth.profile');
+    }
+
 }

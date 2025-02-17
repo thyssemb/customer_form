@@ -7,3 +7,5 @@ Route::get('/', function () {
 });
 
 Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
+
+Route::get('/profile', [AuthController::class, 'profile'])->name('profile.register');
