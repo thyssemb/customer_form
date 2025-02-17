@@ -12,10 +12,11 @@ class CreateInternautesTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('firstname');
+            $table->string('password');
             $table->date('birthday');
             $table->string('picture')->nullable();
             $table->string('number')->unique();
-            $table->string('mail')->unique();
+            $table->string('email')->unique();
             $table->string('mailing_address');
             $table->timestamps();
         });
