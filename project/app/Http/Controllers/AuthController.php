@@ -10,10 +10,13 @@ use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
-    public function register(request $Request): RedirectResponse {
+    public function register() {
     return view('auth.register');
     }
 
+    public function registerSubmit(request $Request): RedirectResponse {
+        return redirect()->route('auth.profile')->with('success', 'Inscription réussie');
+    }
 
     public function profile() {
     return view('auth.profile');

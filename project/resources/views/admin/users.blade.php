@@ -26,6 +26,19 @@
             margin-bottom: 20px;
             color: #333;
         }
+        .filters {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .filters input {
+            padding: 8px;
+            width: 200px;
+            margin-right: 10px;
+        }
+        .filters label {
+            font-weight: bold;
+        }
         .user-table {
             width: 100%;
             border-collapse: collapse;
@@ -53,15 +66,6 @@
         .action-buttons button:hover {
             background-color: #d32f2f;
         }
-        .search-bar {
-            margin-bottom: 20px;
-            text-align: right;
-        }
-        .search-bar input {
-            padding: 8px;
-            width: 200px;
-            margin-right: 10px;
-        }
         .pagination {
             margin-top: 20px;
             text-align: center;
@@ -73,9 +77,27 @@
     <div class="container">
         <h1>Gestion des utilisateurs</h1>
 
-        <div class="search-bar">
-            <input type="text" placeholder="Rechercher...">
-            <button>Rechercher</button>
+        <div class="filters">
+            <div>
+                <label for="idFilter">ID:</label>
+                <input type="text" id="idFilter" placeholder="Filtrer par ID">
+            </div>
+            <div>
+                <label for="prenomFilter">Prénom:</label>
+                <input type="text" id="prenomFilter" placeholder="Filtrer par prénom">
+            </div>
+            <div>
+                <label for="nomFilter">Nom:</label>
+                <input type="text" id="nomFilter" placeholder="Filtrer par nom">
+            </div>
+            <div>
+                <label for="emailFilter">Email:</label>
+                <input type="email" id="emailFilter" placeholder="Filtrer par email">
+            </div>
+            <div>
+                <label for="dateFilter">Date d'inscription:</label>
+                <input type="date" id="dateFilter">
+            </div>
         </div>
 
         <table class="user-table">
@@ -83,6 +105,7 @@
                 <tr>
                     <th>ID</th>
                     <th>Nom</th>
+                    <th>Prénom</th>
                     <th>Email</th>
                     <th>Date d'inscription</th>
                     <th>Actions</th>
@@ -91,7 +114,8 @@
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>John Doe</td>
+                    <td>Doe</td>
+                    <td>John</td>
                     <td>john.doe@example.com</td>
                     <td>01/01/2023</td>
                     <td class="action-buttons">
@@ -101,7 +125,8 @@
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td>Jane Smith</td>
+                    <td>Smith</td>
+                    <td>Jane</td>
                     <td>jane.smith@example.com</td>
                     <td>15/02/2022</td>
                     <td class="action-buttons">
@@ -111,7 +136,8 @@
                 </tr>
                 <tr>
                     <td>3</td>
-                    <td>Mark Johnson</td>
+                    <td>Johnson</td>
+                    <td>Mark</td>
                     <td>mark.johnson@example.com</td>
                     <td>30/08/2021</td>
                     <td class="action-buttons">
