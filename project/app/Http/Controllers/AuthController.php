@@ -15,7 +15,7 @@ class AuthController extends Controller
     }
 
     public function registerSubmit(request $Request): RedirectResponse {
-        return redirect()->route('auth.profile')->with('success', 'Inscription réussie');
+        return redirect()->route('auth.profile')->with('success', 'Register successful');
     }
 
     public function profile() {
