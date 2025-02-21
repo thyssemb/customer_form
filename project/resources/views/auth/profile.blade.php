@@ -52,17 +52,16 @@
 
     <div class="container">
         <div class="profile-header">
-            <h1>Profile utilisateur</h1>
-            <img src="profile picture" alt="Photo de profil">
+            <h1>Profil de {{ $user->name }}</h1>
         </div>
 
         <div class="profile-info">
-            <p><span class="info-title">Nom :</span></p>
-            <p><span class="info-title">Prénom :</span></p>
-            <p><span class="info-title">Email :</span></p>
-            <p><span class="info-title">Date de naissance :</span>
-            <p><span class="info-title">Numéro de téléphone :</span></p>
-            <p><span class="info-title">Adresse postale :</span></p>
+            <p><span class="info-title">Nom :</span> {{ $user->name }}</p>
+            <p><span class="info-title">Prénom :</span> {{ $user->firstname }}</p>
+            <p><span class="info-title">Email :</span> {{ $user->email }}</p>
+            <p><span class="info-title">Date de naissance :</span> {{ \Carbon\Carbon::parse($user->birthday)->format('d-m-Y') }}</p>
+            <p><span class="info-title">Numéro de téléphone :</span> {{ $user->number }}</p>
+            <p><span class="info-title">Adresse postale :</span> {{ $user->mailing_address }}</p>
         </div>
     </div>
 
