@@ -4,71 +4,158 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gestion des utilisateurs</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f9;
+        :root {
+            --primary-color: #4F46E5;
+            --primary-hover: #4338CA;
+            --text-primary: #1F2937;
+            --text-secondary: #6B7280;
+            --bg-primary: #F9FAFB;
+            --bg-secondary: #ffffff;
+            --border-color: #E5E7EB;
+        }
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #EEF2FF, #E0E7FF);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
         .container {
+            width: 100%;
             max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
+            background-color: var(--bg-secondary);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 2.5rem;
             margin-top: 50px;
         }
+
         h1 {
             text-align: center;
-            margin-bottom: 20px;
-            color: #333;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+            font-size: 2rem;
+            font-weight: 600;
         }
+
         .filters {
             display: flex;
-            justify-content: space-between;
-            margin-bottom: 20px;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
         }
-        .filters input {
-            padding: 8px;
-            width: 200px;
-            margin-right: 10px;
+
+        .filters div {
+            display: flex;
+            flex-direction: column;
+            width: 20%;
         }
+
         .filters label {
-            font-weight: bold;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
         }
+
+        .filters input {
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            width: 100%;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+        }
+
+        .filters input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
         .user-table {
             width: 100%;
             border-collapse: collapse;
+            margin-bottom: 2rem;
         }
+
         .user-table th, .user-table td {
-            padding: 12px;
+            padding: 1rem;
             text-align: left;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid var(--border-color);
         }
+
         .user-table th {
-            background-color: #f4f4f9;
+            background-color: var(--bg-primary);
+            font-weight: 600;
         }
+
         .action-buttons {
             display: flex;
-            gap: 10px;
+            gap: 1rem;
         }
+
         .action-buttons button {
-            padding: 5px 10px;
-            background-color: #f44336;
+            padding: 0.75rem 1.5rem;
             color: white;
             border: none;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
         }
-        .action-buttons button:hover {
-            background-color: #d32f2f;
-        }
+
         .pagination {
-            margin-top: 20px;
-            text-align: center;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .pagination button {
+            padding: 0.75rem 1.5rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+            font-size: 0.875rem;
+        }
+
+        .pagination button:hover {
+            background-color: var(--primary-hover);
+        }
+
+        .pagination .page-link {
+            font-size: 1px;
+            padding: 0.5px 1px;
+        }
+
+        .pagination .page-link svg {
+            width: 1px;
+            height: 1px;
+        }
+
+        .show {
+        background: green;
+        }
+
+        .delete {
+        background: red;
         }
     </style>
 </head>
@@ -107,50 +194,31 @@
                     <th>Nom</th>
                     <th>Prénom</th>
                     <th>Email</th>
+                    <th>Rôle</th>
                     <th>Date d'inscription</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
+                @foreach($users as $user)
                 <tr>
-                    <td>1</td>
-                    <td>Doe</td>
-                    <td>John</td>
-                    <td>john.doe@example.com</td>
-                    <td>01/01/2023</td>
+                    <td>{{ $user->id }}</td>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->firstname }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->role }}</td>
+                    <td>{{ $user->created_at->format('d/m/Y') }}</td>
                     <td class="action-buttons">
-                        <button>Voir</button>
-                        <button>Supprimer</button>
+                        <button class="show">Voir</button>
+                        <button class="delete">Supprimer</button>
                     </td>
                 </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Smith</td>
-                    <td>Jane</td>
-                    <td>jane.smith@example.com</td>
-                    <td>15/02/2022</td>
-                    <td class="action-buttons">
-                        <button>Voir</button>
-                        <button>Supprimer</button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Johnson</td>
-                    <td>Mark</td>
-                    <td>mark.johnson@example.com</td>
-                    <td>30/08/2021</td>
-                    <td class="action-buttons">
-                        <button>Voir</button>
-                        <button>Supprimer</button>
-                    </td>
-                </tr>
+                @endforeach
             </tbody>
         </table>
 
         <div class="pagination">
-            <button>Précédent</button>
-            <button>Suivant</button>
+            {{ $users->links() }}
         </div>
     </div>
 
