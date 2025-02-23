@@ -22,8 +22,7 @@ class AuthController extends Controller
     public function registerSubmit(Request $request)
     {
 
-
-        $validatedData = $request->validate([
+             $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'firstname' => 'required|string|max:255',
             'birthday' => 'required|date',
@@ -57,6 +56,7 @@ class AuthController extends Controller
             'email' => $validatedData['email'],
             'password' => Hash::make($validatedData['password']),
             'mailing_address' => $validatedData['mailing_address'],
+            'role' => 'user',
         ]);
 
         Auth::login($user);

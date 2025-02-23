@@ -3,67 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <title>Profile de {{ $user->name }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f4f4f9;
+        :root {
+            --primary-color: #4F46E5;
+            --secondary-color: #6366F1;
+            --danger-color: #DC2626;
+            --text-primary: #1F2937;
+            --text-secondary: #4B5563;
+            --bg-primary: #F9FAFB;
+            --bg-secondary: #ffffff;
+            --border-color: #E5E7EB;
+        }
+
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.5;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            margin-top: 50px;
+            background-color: var(--bg-secondary);
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
         }
+
         .profile-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 3rem 2rem;
             text-align: center;
+            position: relative;
         }
+
         .profile-header h1 {
-            font-size: 28px;
-            color: #333;
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
+
         .profile-header img {
-            border-radius: 50%;
             width: 150px;
             height: 150px;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             object-fit: cover;
-            margin-top: 20px;
+            margin: 1.5rem 0;
         }
+
         .profile-info {
-            margin-top: 30px;
+            padding: 2rem;
         }
-        .profile-info p {
-            font-size: 16px;
-            color: #666;
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
         }
-        .profile-info .info-title {
-            font-weight: bold;
-            color: #333;
+
+        .info-item {
+            background-color: var(--bg-primary);
+            padding: 1.25rem;
+            border-radius: 0.75rem;
+            transition: transform 0.2s ease;
+        }
+
+        .info-item:hover {
+            transform: translateY(-2px);
+        }
+
+        .info-title {
+            font-weight: 600;
+            color: var(--primary-color);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.025em;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .info-content {
+            color: var(--text-primary);
+            font-size: 1rem;
+            word-break: break-word;
+        }
+
+        .profile-actions {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .action-button {
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 140px;
+        }
+
+        .primary-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+
+        .primary-button:hover {
+            background-color: #4338CA;
+        }
+
+        .secondary-button {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
+
+        .secondary-button:hover {
+            background-color: rgba(79, 70, 229, 0.1);
+        }
+
+        .danger-button {
+            background-color: transparent;
+            color: var(--danger-color);
+            border: 1px solid var(--danger-color);
+        }
+
+        .danger-button:hover {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        @media (max-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+
+            .profile-header {
+                padding: 2rem 1rem;
+            }
+
+            .profile-info {
+                padding: 1.5rem;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-actions {
+                flex-direction: column;
+            }
+
+            .action-button {
+                width: 100%;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-
     <div class="container">
         <div class="profile-header">
-            <h1>Profil de {{ $user->name }}</h1>
+            <h1>{{ $user->firstname }} {{ $user->name }}</h1>
+            @if($user->picture)
+                <img src="{{ asset('storage/' . $user->picture) }}" alt="Photo de profil">
+            @else
+                <img src="https://ui-avatars.com/api/?name={{ urlencode($user->firstname . ' ' . $user->name) }}&background=4F46E5&color=fff" alt="Photo de profil">
+            @endif
         </div>
 
         <div class="profile-info">
-            <p><span class="info-title">Nom :</span> {{ $user->name }}</p>
-            <p><span class="info-title">Prénom :</span> {{ $user->firstname }}</p>
-            <p><span class="info-title">Email :</span> {{ $user->email }}</p>
-            <p><span class="info-title">Date de naissance :</span> {{ \Carbon\Carbon::parse($user->birthday)->format('d-m-Y') }}</p>
-            <p><span class="info-title">Numéro de téléphone :</span> {{ $user->number }}</p>
-            <p><span class="info-title">Adresse postale :</span> {{ $user->mailing_address }}</p>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-title">Nom complet</span>
+                    <p class="info-content">{{ $user->firstname }} {{ $user->name }}</p>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-title">Email</span>
+                    <p class="info-content">{{ $user->email }}</p>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-title">Date de naissance</span>
+                    <p class="info-content">{{ \Carbon\Carbon::parse($user->birthday)->format('d/m/Y') }}</p>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-title">Numéro de téléphone</span>
+                    <p class="info-content">{{ $user->number }}</p>
+                </div>
+
+                <div class="info-item">
+                    <span class="info-title">Adresse postale</span>
+                    <p class="info-content">{{ $user->mailing_address }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <form action="" method="POST" style="margin: 0;">
+                @csrf
+                <button type="submit" class="action-button danger-button">Se déconnecter</button>
+            </form>
         </div>
     </div>
-
 </body>
 </html>
