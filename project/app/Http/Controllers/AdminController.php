@@ -21,19 +21,19 @@ class AdminController extends Controller
     }
 
 
-    public function sortUsersById() {
+    public function sortUserById() {
         return $this->getAllUsers($request->merge(['sort_by' => 'id']));
     }
 
-    public function sortUsersByName() {
+    public function sortUserByName() {
         return $this->getAllUsers($request->merge(['sort_by' => 'name']));
     }
 
-    public function sortUsersByFirstName() {
+    public function sortUserByFirstName() {
          return $this->getAllUsers($request->merge(['sort_by' => 'firstname']));
     }
 
-    public function sortUsersByEmail() {
+    public function sortUserByEmail() {
          return $this->getAllUsers($request->merge(['sort_by' => 'email']));
     }
 
