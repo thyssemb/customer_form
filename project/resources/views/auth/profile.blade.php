@@ -188,7 +188,7 @@
         <div class="profile-header">
             <h1>{{ $user->firstname }} {{ $user->name }}</h1>
             @if($user->picture)
-                <img src="{{ asset('storage/' . $user->picture) }}" alt="Photo de profil">
+                <img src="{{ asset('storage/app/public/' . $user->picture) }}" alt="Photo de profil">
             @else
                 <img src="https://ui-avatars.com/api/?name={{ urlencode($user->firstname . ' ' . $user->name) }}&background=4F46E5&color=fff" alt="Photo de profil">
             @endif
@@ -224,10 +224,10 @@
         </div>
 
         <div class="profile-actions">
-            <form action="" method="POST" style="margin: 0;">
-                @csrf
-                <button type="submit" class="action-button danger-button">Se déconnecter</button>
-            </form>
+           <form action="{{ route('auth.logout') }}" method="POST" style="margin: 0;">
+               @csrf
+               <button type="submit" class="action-button danger-button">Se déconnecter</button>
+           </form>
         </div>
     </div>
 </body>

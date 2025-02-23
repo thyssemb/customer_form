@@ -19,6 +19,11 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
+    public function logout() {
+        Auth()->logout();
+        return redirect('/login');
+    }
+
     public function registerSubmit(Request $request)
     {
 
@@ -29,7 +34,7 @@ class AuthController extends Controller
             'picture' => 'required|image|mimes:jpg,png,jpeg|max:2048',
             'number' => 'required|digits:10|unique:internautes',
             'email' => 'required|email|max:255|unique:internautes',
-            'password' => 'required|string|min:8',
+            'password' => 'required|string',
             'mailing_address' => 'required|string|max:255',
         ]);
 
@@ -67,9 +72,28 @@ class AuthController extends Controller
         ]);
     }
 
-    public function loginSubmit() {
-
+    public function loginSubmit(Request $request)
+    {
+        $validatedData = $request->validate([
+            'email' => 'required|email|max:255',
+            'password' => 'required|string',
+        ]);
+        if (Auth::attempt([
+            'email' => $validatedData['email'],
+            'password' => $validatedData['password']
+        ], $request->remember)) {
+              return response()->json([
+                        'success' => true,
+                        'message' => 'Login successfully',
+                    ]);
+        } else {
+            return back()->withErrors([
+                'email' => 'L\'email est incorrect',
+                'password' => 'Le mot de passe est incorrect',
+            ]);
+        }
     }
+
 
 
     public function profile() {

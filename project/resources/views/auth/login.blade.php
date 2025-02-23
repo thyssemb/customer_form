@@ -153,6 +153,27 @@
             display: none;
         }
 
+        #toast {
+            position: fixed;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            display: none;
+        }
+
+        .toast.success {
+            background-color: #28a745;
+        }
+
+        .toast.error {
+            background-color: #dc3545;
+        }
+
         @media (max-width: 640px) {
             body {
                 padding: 1rem;
@@ -215,8 +236,47 @@
         </div>
     </div>
 
-    <script>
+    <!-- Toast element -->
+    <div id="toast"></div>
 
+    <script>
+        function showToast(message, type) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type}`;
+            toast.style.display = 'block';
+
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        $("#loginForm").on("submit", function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+
+            $.ajax({
+                url: "{{ route('auth.login.submit') }}",
+                type: "POST",
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response) {
+                    if (response.success) {
+                        showToast(response.message, 'success');
+                        setTimeout(() => {
+                            window.location.href = '/profile';
+                        }, 1000);
+                    } else {
+                        showToast("Identifiants incorrects. Veuillez réessayer.", 'error');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    showToast("Erreur lors de la connexion. Veuillez réessayer.", 'error');
+                    console.log(xhr.responseText);
+                }
+            });
+        });
     </script>
 </body>
 </html>
