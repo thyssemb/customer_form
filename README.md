@@ -1,3 +1,4 @@
+
 <center><h1>🌐 Customer Form</h1></center>
 
 <p>Ce projet est une application de gestion des utilisateurs avec un formulaire de collecte de données. Il inclut un backend en PHP avec Laravel, une base de données MySQL et une interface utilisateur Blade pour visualiser et gérer les utilisateurs enregistrés.</p>
