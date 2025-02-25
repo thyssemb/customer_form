@@ -16,4 +16,4 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::middleware('auth')->get('/profile', [AuthController::class, 'showUserInfo'])->name('auth.profile');
 
 Route::middleware(['auth', 'checkRole:admin'])->get('/admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
-Route::middleware(['auth', 'checkRole:admin'])->get('/admin/users', [AdminController::class, 'getAllUsers'])->name('admin.users');
+Route::middleware(['auth', 'checkRole:admin'])->get('/admin/users/filter', [AdminController::class, 'getAllUsers'])->name('admin.users.filter');

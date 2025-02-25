@@ -124,7 +124,7 @@
             gap: 1rem;
         }
 
-        .pagination button {
+        .pagination a {
             padding: 0.75rem 1.5rem;
             background-color: var(--primary-color);
             color: white;
@@ -134,28 +134,19 @@
             font-weight: 500;
             transition: background-color 0.3s ease;
             font-size: 0.875rem;
+            text-decoration: none;
         }
 
-        .pagination button:hover {
+        .pagination a:hover {
             background-color: var(--primary-hover);
         }
 
-        .pagination .page-link {
-            font-size: 1px;
-            padding: 0.5px 1px;
-        }
-
-        .pagination .page-link svg {
-            width: 1px;
-            height: 1px;
-        }
-
         .show {
-        background: green;
+            background: green;
         }
 
         .delete {
-        background: red;
+            background: red;
         }
     </style>
 </head>
@@ -164,38 +155,44 @@
     <div class="container">
         <h1>Gestion des utilisateurs</h1>
 
-        <div class="filters">
+        <!-- Filters form -->
+        <form action="{{ route('admin.users.filter') }}" method="GET" class="filters">
             <div>
-                <label for="idFilter">ID:</label>
-                <input type="text" id="idFilter" placeholder="Filtrer par ID">
+                <label for="id">ID</label>
+                <input type="text" name="id" id="id" placeholder="Filtrer par ID" value="{{ request()->id }}">
             </div>
             <div>
-                <label for="prenomFilter">Prénom:</label>
-                <input type="text" id="prenomFilter" placeholder="Filtrer par prénom">
+                <label for="name">Nom</label>
+                <input type="text" name="name" id="name" placeholder="Filtrer par nom" value="{{ request()->name }}">
             </div>
             <div>
-                <label for="nomFilter">Nom:</label>
-                <input type="text" id="nomFilter" placeholder="Filtrer par nom">
+                <label for="firstname">Prénom</label>
+                <input type="text" name="firstname" id="firstname" placeholder="Filtrer par prénom" value="{{ request()->firstname }}">
             </div>
             <div>
-                <label for="emailFilter">Email:</label>
-                <input type="email" id="emailFilter" placeholder="Filtrer par email">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" placeholder="Filtrer par email" value="{{ request()->email }}">
             </div>
             <div>
-                <label for="dateFilter">Date d'inscription:</label>
-                <input type="date" id="dateFilter">
+                <label for="role">Rôle</label>
+                <input type="text" name="role" id="role" placeholder="Filtrer par rôle" value="{{ request()->role }}">
             </div>
-        </div>
+            <div>
+                <label for="created_at">Date d'inscription</label>
+                <input type="date" name="created_at" id="created_at" value="{{ request()->created_at }}">
+            </div>
+            <button type="submit">Filtrer</button>
+        </form>
 
         <table class="user-table">
             <thead>
                 <tr>
-                    <th>ID</th>
-                    <th>Nom</th>
-                    <th>Prénom</th>
-                    <th>Email</th>
-                    <th>Rôle</th>
-                    <th>Date d'inscription</th>
+                    <th><a href="{{ route('admin.users.filter', ['sort_by' => 'id']) }}">ID</a></th>
+                    <th><a href="{{ route('admin.users.filter', ['sort_by' => 'name']) }}">Nom</a></th>
+                    <th><a href="{{ route('admin.users.filter', ['sort_by' => 'firstname']) }}">Prénom</a></th>
+                    <th><a href="{{ route('admin.users.filter', ['sort_by' => 'email']) }}">Email</a></th>
+                    <th><a href="{{ route('admin.users.filter', ['sort_by' => 'role']) }}">Rôle</a></th>
+                    <th><a href="{{ route('admin.users.filter', ['sort_by' => 'created_at']) }}">Date d'inscription</a></th>
                     <th>Actions</th>
                 </tr>
             </thead>
