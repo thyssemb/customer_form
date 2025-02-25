@@ -32,6 +32,53 @@
             padding: 2rem;
         }
 
+        .drag-and-drop-container {
+            margin-top: 2rem;
+            padding: 2rem;
+            border: 1px dashed var(--primary-color);
+            border-radius: 1rem;
+            background-color: var(--bg-secondary);
+            text-align: center;
+        }
+
+        .drop-area {
+            border: 2px dashed var(--primary-color);
+            padding: 2rem;
+            border-radius: 1rem;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            color: var(--primary-color);
+            transition: background-color 0.3s ease;
+        }
+
+        .drop-area p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .drop-area:hover {
+            background-color: #e8e8e8;
+        }
+
+        .drop-area.dragging {
+            background-color: #d1d5db;
+        }
+
+        /* Blinking effect */
+        @keyframes blink {
+            0% { background-color: #f0f0f0; }
+            50% { background-color: #e0e0e0; }
+            100% { background-color: #f0f0f0; }
+        }
+
+        .blinking {
+            animation: blink 0.5s ease-in-out infinite;
+        }
+
         .container {
             max-width: 800px;
             margin: 0 auto;
@@ -185,6 +232,12 @@
 </head>
 <body>
     <div class="container">
+             @if(Auth::check() && Auth::user()->role === 'admin')
+                <div>
+                  <a href="{{ route('admin.users') }}">Panel Admin</a>
+                </div>
+            @endif
+
         <div class="profile-header">
             <h1>{{ $user->firstname }} {{ $user->name }}</h1>
             @if($user->picture)
@@ -192,6 +245,22 @@
             @else
                 <img src="https://ui-avatars.com/api/?name={{ urlencode($user->firstname . ' ' . $user->name) }}&background=4F46E5&color=fff" alt="Photo de profil">
             @endif
+
+            @if(Auth::check() && Auth::user()->role === 'admin')
+                <div class="drag-and-drop-container">
+                    <h2>Changer la photo de profil</h2>
+                    <form action="{{ route('admin.users.dragAndDrop', $user->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div id="drop-area" class="drop-area">
+                            <p>Glissez et déposez une image ici ou cliquez pour sélectionner un fichier.</p>
+                            <input type="file" name="profile_picture" id="file-input" class="file-input" accept="image/*" hidden>
+                        </div>
+                        <button type="submit" class="action-button primary-button">Mettre à jour la photo</button>
+                    </form>
+                </div>
+            @endif
+
         </div>
 
         <div class="profile-info">
@@ -230,5 +299,23 @@
            </form>
         </div>
     </div>
+
+    <script>
+        const dropArea = document.getElementById('drop-area');
+
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.classList.add('blinking');
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.classList.remove('blinking');
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropArea.classList.remove('blinking');
+        });
+    </script>
 </body>
 </html>

@@ -17,3 +17,4 @@ Route::middleware('auth')->get('/profile', [AuthController::class, 'showUserInfo
 
 Route::middleware(['auth', 'checkRole:admin'])->get('/admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
 Route::middleware(['auth', 'checkRole:admin'])->get('/admin/users/filter', [AdminController::class, 'getAllUsers'])->name('admin.users.filter');
+Route::middleware(['auth', 'checkRole:admin'])->get('/admin/users/dragAndDrop', [AdminController::class, 'dragAndDrop'])->name('admin.users.dragAndDrop');

@@ -10,6 +10,10 @@ class AdminController extends Controller
         return $this->getAllUsers($request);
     }
 
+    public function dragAndDrop() {
+
+    }
+
     public function getAllUsers(Request $request) {
         $query = User::query();
 

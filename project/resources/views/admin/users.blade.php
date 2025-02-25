@@ -153,9 +153,13 @@
 <body>
 
     <div class="container">
+            @foreach($users as $user)
+        <div class="profile">
+          <a href="{{ route('auth.profile', ['id' => $user->id]) }}">Profil</a>
+        </div>
+                    @endforeach
         <h1>Gestion des utilisateurs</h1>
 
-        <!-- Filters form -->
         <form action="{{ route('admin.users.filter') }}" method="GET" class="filters">
             <div>
                 <label for="id">ID</label>
@@ -206,7 +210,6 @@
                     <td>{{ $user->role }}</td>
                     <td>{{ $user->created_at->format('d/m/Y') }}</td>
                     <td class="action-buttons">
-                        <button class="show">Voir</button>
                         <button class="delete">Supprimer</button>
                     </td>
                 </tr>
