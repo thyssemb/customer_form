@@ -14,6 +14,18 @@ class AdminController extends Controller
 
     }
 
+    public function deleteUser() {
+        $user = User::find($id);
+
+        if ($user) {
+            $user->delete();
+            } else {
+                Session::flash('error', 'Utilisateur introuvable.');
+                }
+
+            return redirect()->route('admin.users');
+    }
+
     public function getAllUsers(Request $request) {
         $query = User::query();
 

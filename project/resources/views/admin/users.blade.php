@@ -145,19 +145,44 @@
             background: green;
         }
 
+        .submit {
+            background: blue;
+        }
+
         .delete {
             background: red;
+        }
+
+        .filters button {
+            padding: 0.75rem 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            font-size: 1rem;
+            margin-top: 1.5rem;
+            align-self: flex-start;
+        }
+
+        .filters button:hover {
+            background-color: var(--primary-hover);
+            transform: scale(1.05);
+        }
+
+        .filters button:active {
+            transform: scale(0.98);
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-            @foreach($users as $user)
-        <div class="profile">
-          <a href="{{ route('auth.profile', ['id' => $user->id]) }}">Profil</a>
+        <div>
+             <a href="{{ route('auth.profile') }}">Profil</a>
         </div>
-                    @endforeach
         <h1>Gestion des utilisateurs</h1>
 
         <form action="{{ route('admin.users.filter') }}" method="GET" class="filters">
@@ -210,8 +235,12 @@
                     <td>{{ $user->role }}</td>
                     <td>{{ $user->created_at->format('d/m/Y') }}</td>
                     <td class="action-buttons">
-                        <button class="delete">Supprimer</button>
-                    </td>
+                    <form action="{{ route('admin.users.deleteUser', $user->id) }}" method="POST" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cet utilisateur ?');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="delete">Supprimer</button>
+                        </form>
+                        </td>
                 </tr>
                 @endforeach
             </tbody>

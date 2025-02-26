@@ -68,7 +68,7 @@ class AuthController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Register successfully',
+            'message' => 'Inscription réussie',
         ]);
     }
 
@@ -84,7 +84,7 @@ class AuthController extends Controller
         ], $request->remember)) {
               return response()->json([
                         'success' => true,
-                        'message' => 'Login successfully',
+                        'message' => 'Connexion réussie',
                     ]);
         } else {
             return back()->withErrors([

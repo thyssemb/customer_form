@@ -253,7 +253,7 @@
                         @csrf
                         @method('PUT')
                         <div id="drop-area" class="drop-area">
-                            <p>Glissez et déposez une image ici ou cliquez pour sélectionner un fichier.</p>
+                            <p>Glissez une image ici ou cliquez pour sélectionner un fichier.</p>
                             <input type="file" name="profile_picture" id="file-input" class="file-input" accept="image/*" hidden>
                         </div>
                         <button type="submit" class="action-button primary-button">Mettre à jour la photo</button>
