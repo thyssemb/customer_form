@@ -12,7 +12,7 @@ class CheckRole
         try {
             # récupère le rôle de l'utilisateur authentifié
             $user = auth()->user();
-            
+
             if (!$user || $user->role !== $role) {
                 \Log::warning("Tentative d'accès non autorisé à la route avec le rôle : $role");
                 abort(404);

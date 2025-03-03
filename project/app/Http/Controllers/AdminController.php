@@ -3,17 +3,81 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Intervention\Image\Facades\Image;
 
 class AdminController extends Controller
 {
-    public function showUsers(Request $request) {
+
+        /**
+         * @OA\Get(
+         *     path="/admin/users",
+         *     summary="Affiche la liste des utilisateurs",
+         *     @OA\Response(response=200, description="Liste des utilisateurs récupérée")
+         * )
+         */
+         public function showUsers(Request $request) {
         return $this->getAllUsers($request);
     }
 
-    public function dragAndDrop() {
+        /**
+         * @OA\Post(
+         *     path="/profile",
+         *     summary="Permet le drag and drop de la photo de profil, réservé aux admins",
+         *     @OA\Response(response=200, description="Drag and drop impossible")
+         *)
+         */
+public function dragAndDrop(Request $request, $userId)
+{
+    $user = User::findOrFail($userId);
 
+    $validatedData = $request->validate([
+        'picture' => 'required|image|mimes:jpg,png,jpeg|max:2048',
+    ]);
+
+    if ($request->hasFile('picture') && $request->file('picture')->isValid()) {
+        try {
+            $file = $request->file('picture');
+            $filename = strtolower($validatedData['name'] . '.' . $validatedData['firstname'] . '.' . $file->getClientOriginalExtension());
+
+            $image = Image::make($file)->resize(200, 200);
+            Storage::disk('public')->put('profile_pictures/' . $filename, (string) $image->encode());
+
+            $picturePath = 'profile_pictures/' . $filename;
+
+            $user->picture = $picturePath;
+            $user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Photo de profil mise à jour avec succès',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Une erreur s\'est produite lors du téléchargement de l\'image: ' . $e->getMessage(),
+            ], 500);
+        }
+    } else {
+        return response()->json([
+            'error' => 'Aucun fichier téléchargé ou le fichier est invalide',
+        ], 400);
     }
+}
 
+
+    /**
+     * @OA\Delete(
+     *     path="/admin/user/{id}",
+     *     summary="Supprime un utilisateur",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         description="ID de l'utilisateur",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Utilisateur supprimé")
+     * )
+     */
     public function deleteUser() {
         $user = User::find($id);
 

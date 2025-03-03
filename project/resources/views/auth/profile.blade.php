@@ -241,7 +241,7 @@
         <div class="profile-header">
             <h1>{{ $user->firstname }} {{ $user->name }}</h1>
             @if($user->picture)
-                <img src="{{ asset('storage/app/public/' . $user->picture) }}" alt="Photo de profil">
+                <img src="{{ asset('storage/' . $user->picture) }}" alt="Photo de profil">
             @else
                 <img src="https://ui-avatars.com/api/?name={{ urlencode($user->firstname . ' ' . $user->name) }}&background=4F46E5&color=fff" alt="Photo de profil">
             @endif
@@ -249,15 +249,14 @@
             @if(Auth::check() && Auth::user()->role === 'admin')
                 <div class="drag-and-drop-container">
                     <h2>Changer la photo de profil</h2>
-                    <form action="{{ route('admin.users.dragAndDrop', $user->id) }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-                        @method('PUT')
-                        <div id="drop-area" class="drop-area">
-                            <p>Glissez une image ici ou cliquez pour sélectionner un fichier.</p>
-                            <input type="file" name="profile_picture" id="file-input" class="file-input" accept="image/*" hidden>
-                        </div>
-                        <button type="submit" class="action-button primary-button">Mettre à jour la photo</button>
-                    </form>
+                <form action="{{ route('admin.users.dragAndDrop', $user->id) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div id="drop-area" class="drop-area">
+                        <p>Glissez une image ici ou cliquez pour sélectionner un fichier.</p>
+                        <input type="file" name="picture" id="file-input" class="file-input" accept="image/*" hidden>
+                    </div>
+                    <button type="submit" class="action-button primary-button">Mettre à jour la photo</button>
+                </form>
                 </div>
             @endif
 
@@ -300,22 +299,77 @@
         </div>
     </div>
 
-    <script>
-        const dropArea = document.getElementById('drop-area');
+<script>
+    const dropArea = document.getElementById('drop-area');
+    const fileInput = document.getElementById('file-input');
 
-        dropArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            dropArea.classList.add('blinking');
-        });
+    dropArea.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropArea.classList.add('blinking');
+    });
 
-        dropArea.addEventListener('dragleave', () => {
-            dropArea.classList.remove('blinking');
-        });
+    dropArea.addEventListener('dragleave', () => {
+        dropArea.classList.remove('blinking');
+    });
 
-        dropArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            dropArea.classList.remove('blinking');
-        });
-    </script>
+    dropArea.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropArea.classList.remove('blinking');
+
+        const files = e.dataTransfer.files;
+        if (files.length > 0) {
+            fileInput.files = files;
+            const fileName = files[0].name;
+            dropArea.innerHTML = `<p>${fileName}</p>`;
+            console.log('Fichier déposé :', files[0]);
+        }
+    });
+
+    fileInput.addEventListener('change', () => {
+        const files = fileInput.files;
+        if (files.length > 0) {
+            const fileName = files[0].name;
+            dropArea.innerHTML = `<p>${fileName}</p>`;
+            console.log('Fichier sélectionné :', files[0]);
+        }
+    });
+
+    dropArea.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    const form = document.querySelector('form');
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+
+        try {
+            console.log('FormData avant envoi :', formData);
+
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+            });
+
+            if (!response.ok) {
+                console.error('Erreur lors de l\'envoi de la photo');
+                throw new Error('Une erreur est survenue lors de l\'upload de l\'image.');
+            }
+
+            const data = await response.json();
+            console.log('Réponse serveur :', data);
+
+            if (data.picture) {
+                const imgElement = document.querySelector('img');
+                imgElement.src = `/storage/${data.picture}`;
+            }
+
+        } catch (error) {
+            console.error('Erreur lors de l\'upload de l\'image :', error);
+        }
+    });
+</script>
+
+
 </body>
 </html>

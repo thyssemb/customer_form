@@ -1,0 +1,208 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Customer Form Api Documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/admin/users": {
+            "get": {
+                "summary": "Affiche la liste des utilisateurs",
+                "operationId": "c264a8769de5a0d9e0376778712e2d06",
+                "responses": {
+                    "200": {
+                        "description": "Liste des utilisateurs récupérée"
+                    }
+                }
+            }
+        },
+        "/profile": {
+            "get": {
+                "summary": "Affiche le profil utilisateur",
+                "operationId": "e92c58f994e8be6e19813ce20425f83e",
+                "responses": {
+                    "200": {
+                        "description": "Impossible d'afficher le profil"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Permet le drag and drop de la photo de profil, réservé aux admins",
+                "operationId": "066241e031d16ad9af88bd04ebef6e68",
+                "responses": {
+                    "200": {
+                        "description": "Drag and drop impossible"
+                    }
+                }
+            }
+        },
+        "/admin/user/{id}": {
+            "delete": {
+                "summary": "Supprime un utilisateur",
+                "operationId": "3c4ffeea4187c24b53d8316713732704",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Utilisateur supprimé"
+                    }
+                }
+            }
+        },
+        "/register": {
+            "get": {
+                "summary": "Affiche le formulaire d'inscription",
+                "operationId": "d8062430329ffa48babdfb3ca114e80a",
+                "responses": {
+                    "200": {
+                        "description": "Formulaire d'inscription affiché"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Soumet les données d'inscription",
+                "operationId": "10c8df81e9dccd95f6e2734c20089d1e",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Nom de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "firstname",
+                        "in": "query",
+                        "description": "Prénom de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "birthday",
+                        "in": "query",
+                        "description": "Date de naissance de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date"
+                        }
+                    },
+                    {
+                        "name": "picture",
+                        "in": "query",
+                        "description": "Photo de profil de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "file"
+                        }
+                    },
+                    {
+                        "name": "number",
+                        "in": "query",
+                        "description": "Numéro de téléphone de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Mot de passe de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "mailing_address",
+                        "in": "query",
+                        "description": "Adresse de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Utilisateur inscrit avec succès"
+                    }
+                }
+            }
+        },
+        "/login": {
+            "get": {
+                "summary": "Affiche le formulaire de connexion",
+                "operationId": "11f21d9311115567b54be5e8c50fbaee",
+                "responses": {
+                    "200": {
+                        "description": "Formulaire de connexion affiché"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Soumet les données de connexion",
+                "operationId": "456ae23b0d725b4d642e92a062bc3fd6",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Mot de passe de l'utilisateur",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Utilisateur connecté avec succès"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "get": {
+                "summary": "Déconnecte l'utilisateur",
+                "operationId": "1deead8175ec826e4eff4671de92fbf3",
+                "responses": {
+                    "200": {
+                        "description": "Impossible de déconnecter l'utilisateur"
+                    }
+                }
+            }
+        }
+    }
+}

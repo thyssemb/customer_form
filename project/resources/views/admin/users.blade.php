@@ -191,6 +191,10 @@
                 <input type="text" name="id" id="id" placeholder="Filtrer par ID" value="{{ request()->id }}">
             </div>
             <div>
+             <label for="id"></label>
+                        <input type="text" name="id" id="id" placeholder="Filtrer par ID" value="{{ request()->id }}">
+                    </div>
+            <div>
                 <label for="name">Nom</label>
                 <input type="text" name="name" id="name" placeholder="Filtrer par nom" value="{{ request()->name }}">
             </div>
