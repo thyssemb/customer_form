@@ -1,1 +1,5 @@
 modifier les routes pour afficher dans le swagger la route pour afficher le profil ET la route )our faire le drag and drop qui prend comme argument l'id de l'admin + dragdanddrop (request)
+
+ajouter les différents messages d'erreur (photo non renseignée etc)
+
+corriger et améliorer le swagger
