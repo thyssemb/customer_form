@@ -1,7 +1,4 @@
 
-
-
-ChatGPT a dit :
 <center><h1>🌐 Customer Form</h1></center> <p>This project is a user management application with a data collection form. It includes a PHP backend with Laravel, a MySQL database, and a Blade user interface to view and manage registered users.</p>
 <h2>🚀 Installation</h2> <p align="left"> Clone the project: <br> <code>git clone <url_of_project></code> <br> Install PHP dependencies: <code>composer install</code> <br> </p>
 <h2>▶️ Launch</h2> <h3>🔒 Project</h3> <p align="left"> Create a MySQL database named <strong>customer_form</strong>. <br> Configure the connection settings in the <code>.env</code> file: <br> <code>DB_DATABASE=customer_form</code> <br> <code>DB_HOST=127.0.0.1</code> <br> Start the project from the root of "project" with the command <code>php artisan serve</code> </p>
